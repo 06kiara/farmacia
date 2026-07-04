@@ -1,12 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Farmacia</title>
+
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
 <body>
 
-    <h1>Bienvenido al Sistema de Farmacia</h1>
+<h1>Bienvenido al Sistema de Farmacia</h1>
+
+<h2>Registrar Producto</h2>
+
+<form th:action="@{/guardar}" method="post">
+    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+    <input type="number" name="precio" placeholder="Precio" required>
+    <button type="submit">Guardar</button>
+</form>
+
+<h2>Lista de Productos</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+    </tr>
+
+    <tr th:each="producto : ${productos}">
+        <td th:text="${producto.id}"></td>
+        <td th:text="${producto.nombre}"></td>
+        <td th:text="${producto.precio}"></td>
+        <td>
+            <a th:href="@{/eliminar/{id}(id=${producto.id})}">Eliminar</a>
+        </td>
+    </tr>
+
+</table>
 
 </body>
 </html>
