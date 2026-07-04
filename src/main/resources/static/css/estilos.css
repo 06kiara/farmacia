@@ -1,10 +1,242 @@
-body {
-    background-color: #e8f5e9;
-    font-family: Arial, sans-serif;
+/* ===========================
+   ESTILOS GENERALES
+=========================== */
+
+body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:linear-gradient(135deg,#74ebd5,#9face6);
+    margin:0;
+    padding:0;
 }
 
-h1 {
-    color: #2e7d32;
-    text-align: center;
-    margin-top: 50px;
+/* ===========================
+   CONTENEDOR PRINCIPAL
+=========================== */
+
+.container{
+    width:85%;
+    margin:40px auto;
+    background:rgba(255,255,255,.95);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
+    animation:aparecer .6s ease;
+}
+
+/* ===========================
+   ANIMACIÓN
+=========================== */
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ===========================
+   TÍTULOS
+=========================== */
+
+h1{
+    text-align:center;
+    color:#2c3e50;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+h2{
+    color:#34495e;
+    margin-top:20px;
+}
+
+/* ===========================
+   IMAGEN PRINCIPAL
+=========================== */
+
+.imagen-principal{
+    display:block;
+    margin:20px auto 30px auto;
+    max-width:350px;
+    width:100%;
+    height:auto;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    transition:.4s;
+}
+
+.imagen-principal:hover{
+    transform:scale(1.05);
+}
+
+/* ===========================
+   FORMULARIO
+=========================== */
+
+form{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+form input{
+    padding:12px;
+    width:260px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    transition:.3s;
+    font-size:15px;
+}
+
+form input:focus{
+    outline:none;
+    border-color:#3498db;
+    box-shadow:0 0 10px rgba(52,152,219,.35);
+}
+
+/* ===========================
+   BOTONES
+=========================== */
+
+button{
+    padding:12px 22px;
+    background:#3498db;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    background:#2980b9;
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,.20);
+}
+
+.btn{
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+.btn-success{
+    background:#27ae60;
+    border:none;
+}
+
+.btn-success:hover{
+    background:#219150;
+}
+
+.btn-warning{
+    background:#f39c12;
+    border:none;
+    color:white;
+}
+
+.btn-warning:hover{
+    background:#d68910;
+}
+
+.btn-danger{
+    background:#e74c3c;
+    border:none;
+}
+
+.btn-danger:hover{
+    background:#c0392b;
+}
+
+/* ===========================
+   TARJETAS
+=========================== */
+
+.card{
+    border:none !important;
+    border-radius:18px !important;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+/* ===========================
+   TABLA
+=========================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+thead{
+    background:#2c3e50;
+    color:white;
+}
+
+th{
+    padding:14px;
+    text-align:center;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #e5e5e5;
+}
+
+tbody tr{
+    transition:.25s;
+}
+
+tbody tr:hover{
+    background:#eef7ff;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+.navbar{
+    min-height:60px;
+    padding:8px 20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+.navbar-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:bold;
+    margin:0;
+}
+
+/* Logo de la barra */
+
+.logo-navbar{
+    width:40px;
+    height:40px;
+    object-fit:contain;
+    border-radius:0;
+    margin:0;
+    padding:0;
+    box-shadow:none;
+    transition:none;
+}
+
+.logo-navbar:hover{
+    transform:none;
 }

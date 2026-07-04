@@ -1,0 +1,6 @@
+@echo off
+cd /d %~dp0
+
+echo Iniciando Farmacia...
+
+start http://localhost:8081
