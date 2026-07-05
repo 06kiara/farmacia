@@ -39,17 +39,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            .authenticationProvider(authenticationProvider())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/img/**")
-                .permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(Customizer.withDefaults());
+    http
+        .authenticationProvider(authenticationProvider())
+        .authorizeHttpRequests(auth -> auth
 
-        return http.build();
-    }
+            // Recursos públicos
+            .requestMatchers("/css/**", "/img/**").permitAll()
+
+            // Página principal para cualquier usuario autenticado
+            .requestMatchers("/").hasAnyRole("ADMIN", "USUARIO")
+
+            // Solo ADMIN puede realizar estas acciones
+            .requestMatchers("/guardar").hasRole("ADMIN")
+            .requestMatchers("/editar/**").hasRole("ADMIN")
+            .requestMatchers("/eliminar/**").hasRole("ADMIN")
+
+            // El resto requiere autenticación
+            .anyRequest().authenticated()
+        )
+        .formLogin(Customizer.withDefaults());
+
+    return http.build();
+}
 }
