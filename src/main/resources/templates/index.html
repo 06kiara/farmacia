@@ -20,7 +20,7 @@
 
     <div class="container-fluid">
 
-        <a class="navbar-brand d-flex align-items-center" href="#">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
 
             <img src="/img/logo.png.jpg"
                  alt="Logo"
@@ -52,16 +52,123 @@
 
 </nav>
 
-<!-- Imagen -->
-<div class="text-center mb-4">
+<!-- MENÚ DE NAVEGACIÓN -->
+<div class="bg-white shadow-sm">
 
-    <img src="/img/imagen.jpg"
-         alt="Imagen de la farmacia"
-         class="imagen-principal">
+    <div class="container">
+
+        <ul class="nav nav-pills py-3">
+
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/}">
+                    🏠 Inicio
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">
+                    💊 Medicamentos
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/ventas}">
+                    🛒 Ventas
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
 
 </div>
 
-<div class="container">
+<!-- DASHBOARD -->
+<div class="container mt-4">
+
+    <div class="row g-4">
+
+        <!-- Medicamentos -->
+        <div class="col-md-3">
+
+            <div class="card text-white bg-primary shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>💊 Medicamentos</h5>
+
+                    <h2 th:text="${#lists.size(medicamentos)}">0</h2>
+
+                    <p class="mb-0">Registrados</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Ventas -->
+        <div class="col-md-3">
+
+            <div class="card text-white bg-success shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>🛒 Ventas</h5>
+
+                    <h2>0</h2>
+
+                    <p class="mb-0">Realizadas</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Stock -->
+        <div class="col-md-3">
+
+            <div class="card text-white bg-warning shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>📦 Stock</h5>
+
+                    <h2>--</h2>
+
+                    <p class="mb-0">Disponible</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Usuario -->
+        <div class="col-md-3">
+
+            <div class="card text-white bg-dark shadow">
+
+                <div class="card-body text-center">
+
+                    <h5>👤 Usuario</h5>
+
+                    <h5 sec:authentication="name"></h5>
+
+                    <p class="mb-0">Sesión activa</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 
     <!-- BUSCADOR -->
     <div class="card shadow-sm border-0 mb-4">
