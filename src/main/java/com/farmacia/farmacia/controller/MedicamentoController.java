@@ -30,51 +30,9 @@ public class MedicamentoController {
     // BUSCAR MEDICAMENTOS
     @GetMapping("/buscar")
     public String buscar(@RequestParam("nombre") String nombre, Model model) {
-
         model.addAttribute("medicamentos", medicamentoService.buscarPorNombre(nombre));
         model.addAttribute("medicamento", new Medicamento());
-
         return "index";
-    }
-
-    // ==========================
-    // AGREGAR AL CARRITO
-    // ==========================
-    @GetMapping("/carrito/agregar/{id}")
-    public String agregarAlCarrito(@PathVariable Long id, HttpSession session) {
-
-        Medicamento medicamento = medicamentoService.obtenerMedicamentoPorId(id);
-
-        List<Medicamento> carrito =
-                (List<Medicamento>) session.getAttribute("carrito");
-
-        if (carrito == null) {
-            carrito = new ArrayList<>();
-        }
-
-        carrito.add(medicamento);
-
-        session.setAttribute("carrito", carrito);
-
-        return "redirect:/";
-    }
-
-    // ==========================
-    // VER CARRITO
-    // ==========================
-    @GetMapping("/carrito")
-    public String verCarrito(HttpSession session, Model model) {
-
-        List<Medicamento> carrito =
-                (List<Medicamento>) session.getAttribute("carrito");
-
-        if (carrito == null) {
-            carrito = new ArrayList<>();
-        }
-
-        model.addAttribute("carrito", carrito);
-
-        return "carrito";
     }
 
     // GUARDAR
@@ -87,12 +45,9 @@ public class MedicamentoController {
     // EDITAR
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
-
         Medicamento medicamento = medicamentoService.obtenerMedicamentoPorId(id);
-
         model.addAttribute("medicamento", medicamento);
         model.addAttribute("medicamentos", medicamentoService.listarMedicamentos());
-
         return "index";
     }
 
