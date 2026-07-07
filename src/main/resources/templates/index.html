@@ -168,7 +168,7 @@
 
 </div>
 
-
+<div class="container">
 
     <!-- BUSCADOR -->
     <div class="card shadow-sm border-0 mb-4">
@@ -344,16 +344,20 @@
 
                 <tr>
 
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Categoría</th>
+                 <th>ID</th>
+                 <th>Nombre</th>
+                 <th>Descripción</th>
+                <th>Precio</th>
+                 <th>Stock</th>
+                 <th>Categoría</th>
 
-                    <th sec:authorize="hasRole('ADMIN')">
-                        Acciones
-                    </th>
+                 <th sec:authorize="hasRole('USER')">
+                  Carrito
+                 </th>
+
+                <th sec:authorize="hasRole('ADMIN')">
+                Acciones
+               </th>
 
                 </tr>
 
@@ -376,7 +380,14 @@
                     <td th:text="${m.stock}"></td>
 
                     <td th:text="${m.categoria}"></td>
+                    <td sec:authorize="hasRole('USER')">
 
+                     <a th:href="@{'/carrito/agregar/' + ${m.id}}"
+                     class="btn btn-success btn-sm">
+                      🛒 Agregar
+                        </a>
+
+                      </td>
                     <td sec:authorize="hasRole('ADMIN')">
 
                         <a th:href="@{'/editar/' + ${m.id}}"
