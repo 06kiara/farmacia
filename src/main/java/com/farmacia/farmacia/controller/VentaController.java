@@ -1,5 +1,7 @@
 package com.farmacia.farmacia.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.farmacia.farmacia.dto.CarritoItem;
 import com.farmacia.farmacia.entity.Medicamento;
+import com.farmacia.farmacia.entity.Venta;
 import com.farmacia.farmacia.service.MedicamentoService;
 import com.farmacia.farmacia.service.VentaService;
 
@@ -29,20 +32,18 @@ public class VentaController {
     @GetMapping("/ventas")
     public String listarVentas(Model model, HttpSession session) {
 
-        // Historial de ventas
         model.addAttribute("ventas", ventaService.listarVentas());
+        model.addAttribute("medicamentos", medicamentoService.listarMedicamentos());
 
-        // Lista de medicamentos
-        model.addAttribute("medicamentos",
-                medicamentoService.listarMedicamentos());
-
-        // Crear carrito si no existe
         if (session.getAttribute("carrito") == null) {
             session.setAttribute("carrito", new ArrayList<CarritoItem>());
         }
 
-        // Enviar carrito a la vista
-        model.addAttribute("carrito", session.getAttribute("carrito"));
+        @SuppressWarnings("unchecked")
+        List<CarritoItem> carrito =
+                (List<CarritoItem>) session.getAttribute("carrito");
+
+        model.addAttribute("carrito", carrito);
 
         return "ventas";
     }
@@ -66,10 +67,84 @@ public class VentaController {
 
         if (med != null) {
 
-            CarritoItem item = new CarritoItem(med, cantidad);
+            boolean existe = false;
 
-            carrito.add(item);
+            for (CarritoItem item : carrito) {
+
+                if (item.getMedicamento().getId().equals(med.getId())) {
+
+                    item.setCantidad(item.getCantidad() + cantidad);
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe) {
+                carrito.add(new CarritoItem(med, cantidad));
+            }
         }
+
+        session.setAttribute("carrito", carrito);
+
+        return "redirect:/ventas";
+    }
+
+    @PostMapping("/ventas/eliminar")
+    public String eliminarDelCarrito(
+            @RequestParam("indice") int indice,
+            HttpSession session) {
+
+        @SuppressWarnings("unchecked")
+        List<CarritoItem> carrito =
+                (List<CarritoItem>) session.getAttribute("carrito");
+
+        if (carrito != null &&
+                indice >= 0 &&
+                indice < carrito.size()) {
+
+            carrito.remove(indice);
+        }
+
+        session.setAttribute("carrito", carrito);
+
+        return "redirect:/ventas";
+    }
+
+    @PostMapping("/ventas/confirmar")
+    public String confirmarVenta(HttpSession session) {
+
+        @SuppressWarnings("unchecked")
+        List<CarritoItem> carrito =
+                (List<CarritoItem>) session.getAttribute("carrito");
+
+        if (carrito == null || carrito.isEmpty()) {
+            return "redirect:/ventas";
+        }
+
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (CarritoItem item : carrito) {
+
+            Medicamento med = item.getMedicamento();
+
+            med.setStock(med.getStock() - item.getCantidad());
+
+            medicamentoService.guardarMedicamento(med);
+
+            total = total.add(
+                    med.getPrecio().multiply(
+                            BigDecimal.valueOf(item.getCantidad())
+                    )
+            );
+        }
+
+        Venta venta = new Venta();
+        venta.setFecha(LocalDateTime.now());
+        venta.setTotal(total);
+
+        ventaService.guardarVenta(venta);
+
+        carrito.clear();
 
         session.setAttribute("carrito", carrito);
 

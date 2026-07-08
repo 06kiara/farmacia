@@ -12,11 +12,13 @@ public interface MedicamentoService {
 
     Medicamento obtenerMedicamentoPorId(Long id);
 
-    // ESTE MÉTODO FALTABA
     Medicamento actualizarMedicamento(Medicamento medicamento);
 
     void eliminarMedicamento(Long id);
 
     // Buscar medicamentos
     List<Medicamento> buscarPorNombre(String nombre);
+
+    // Obtener el stock total
+    Integer obtenerStockTotal();
 }

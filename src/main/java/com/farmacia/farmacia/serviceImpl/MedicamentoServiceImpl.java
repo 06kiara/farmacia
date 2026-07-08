@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.farmacia.farmacia.entity.Medicamento;
+import com.farmacia.farmacia.repository.DetalleVentaRepository;
 import com.farmacia.farmacia.repository.MedicamentoRepository;
 import com.farmacia.farmacia.service.MedicamentoService;
 
@@ -14,6 +15,9 @@ public class MedicamentoServiceImpl implements MedicamentoService {
 
     @Autowired
     private MedicamentoRepository medicamentoRepository;
+
+    @Autowired
+    private DetalleVentaRepository detalleVentaRepository;
 
     @Override
     public List<Medicamento> listarMedicamentos() {
@@ -37,12 +41,22 @@ public class MedicamentoServiceImpl implements MedicamentoService {
 
     @Override
     public void eliminarMedicamento(Long id) {
+
+        if (detalleVentaRepository.existsByMedicamentoId(id)) {
+            throw new RuntimeException(
+                    "No se puede eliminar el medicamento porque tiene ventas registradas.");
+        }
+
         medicamentoRepository.deleteById(id);
     }
 
-    // NUEVO MÉTODO PARA BUSCAR
     @Override
     public List<Medicamento> buscarPorNombre(String nombre) {
         return medicamentoRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    @Override
+    public Integer obtenerStockTotal() {
+        return medicamentoRepository.obtenerStockTotal();
     }
 }

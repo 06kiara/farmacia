@@ -14,4 +14,8 @@ public interface VentaService {
 
     // Buscar una venta por ID
     Venta obtenerVentaPorId(Long id);
+
+    // Contar ventas
+    long contarVentas();
 }
+

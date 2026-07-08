@@ -8,4 +8,6 @@ import com.farmacia.farmacia.entity.DetalleVenta;
 @Repository
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
 
+    boolean existsByMedicamentoId(Long medicamentoId);
+
 }

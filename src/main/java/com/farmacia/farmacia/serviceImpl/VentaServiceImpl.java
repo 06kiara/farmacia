@@ -29,4 +29,9 @@ public class VentaServiceImpl implements VentaService {
     public Venta obtenerVentaPorId(Long id) {
         return ventaRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public long contarVentas() {
+        return ventaRepository.count();
+    }
 }
